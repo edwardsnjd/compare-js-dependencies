@@ -3,7 +3,7 @@ Simple tool to compare `package.json` dependencies.
 Usage
 =====
 
-    npx compare-js-dependencies file1 file2 ...
+    ./lib/cli.js packagefile1 packagefile2 ...
 
 Development
 ===========
