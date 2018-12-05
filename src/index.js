@@ -14,25 +14,24 @@ export const gather = (dependenciesProperty) => (packages=[]) =>
   packages
     .map(pakage => {
       const {[dependenciesProperty]: dependencies = {}} = pakage;
-      const label = getPackageLabel(pakage);
+      const packageLabel = getPackageLabel(pakage);
       return Object.keys(dependencies)
-        .reduce((packageDependencies, dependencyName) => {
-          packageDependencies[dependencyName] = {
-            [label]: dependencies[dependencyName]
-          };
-          return packageDependencies;
+        .reduce((packageInfo, dependencyName) => {
+          const dependencyVersion = dependencies[dependencyName];
+          packageInfo[dependencyName] = { [packageLabel]: dependencyVersion };
+          return packageInfo;
         }, {});
     })
-    .reduce((acc, packageDependencies) => {
-      return Object.keys(packageDependencies)
-        // Add all the dependencies in this package
-        .reduce((acc2, dependencyName) => {
-          acc2[dependencyName] = {
+    .reduce((acc, packageInfo) => {
+      // Add all the dependencies in this package
+      return Object.keys(packageInfo)
+        .reduce((combinedInfo, dependencyName) => {
+          combinedInfo[dependencyName] = {
             // Merge this package's details in with the others for this dependency
-            ...acc2[dependencyName],
-            ...packageDependencies[dependencyName],
+            ...combinedInfo[dependencyName],
+            ...packageInfo[dependencyName],
           };
-          return acc2;
+          return combinedInfo;
         }, acc);
       }, {});
 
@@ -53,9 +52,9 @@ export default (packages, opts={}) => {
 
   return {
     packageLabels: packages.map(getPackageLabel),
-    ...types.reduce((acc, type) => ({
-      ...acc,
-      [type]: gather(type)(packages),
-    }), {}),
+    ...types.reduce((acc, type) => {
+      acc[type] = gather(type)(packages);
+      return acc;
+    }, {}),
   };
 };

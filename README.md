@@ -3,7 +3,7 @@ Simple tool to compare `package.json` dependencies.
 Usage
 =====
 
-    ./lib/cli.js packagefile1 packagefile2 ...
+    ./lib/cli.js [--format=json|md|csv] packagefile1 packagefile2
 
 Development
 ===========

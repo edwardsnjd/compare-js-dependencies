@@ -1,7 +1,8 @@
-import {getHeaderRow, getDependencyRows} from './print';
+import {getHeaderRow, getDependencyRows} from './common';
 
-const printCsv = (dependencyInfo) => {
+const printMarkdown = (dependencyInfo) => {
   printHeader(dependencyInfo);
+  printSeparator(dependencyInfo);
   printInfo('dependencies', dependencyInfo);
   printInfo('peerDependencies', dependencyInfo);
   printInfo('devDependencies', dependencyInfo);  
@@ -9,6 +10,11 @@ const printCsv = (dependencyInfo) => {
 
 const printHeader = (info) => {
   const fields = getHeaderRow(info);
+  printRow(fields);
+};
+
+const printSeparator = (info) => {
+  const fields = getHeaderRow(info).map(dummy => '--');
   printRow(fields);
 };
 
@@ -20,6 +26,6 @@ const printInfo = (type, info) => {
 };
 
 const printRow = (fields) =>
-  console.log(fields.join(','));
+  console.log(`|${fields.join('|')}|`);
 
-export default printCsv;
+export default printMarkdown;

@@ -4,7 +4,7 @@ import minimist from 'minimist';
 import path from 'path';
 
 import compare from './index';
-import getFormatter from './formatter';
+import getFormatter from './formatters';
 
 const argv = minimist(process.argv.slice(2));
 
