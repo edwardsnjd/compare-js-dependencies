@@ -24,24 +24,24 @@ tape('gather returns empty object for package without dependencies', (t) => {
 });
 
 tape('gather collects dependencies for single package', (t) => {
-  const pkg1 = {name: 'pkg1', dependencies: {foo: 123}};
-  const expected = {foo: {pkg1: 123}};
+  const pkg1 = {name: 'pkg1', version: 'v1', dependencies: {foo: 123}};
+  const expected = {foo: {'pkg1@v1': 123}};
   assertDependencies(t, [pkg1], expected);
   t.end(); 
 });
 
 tape('gather merges non-overlapping dependencies', (t) => {
-  const pkg1 = {name: 'pkg1', dependencies: {foo: 123}};
-  const pkg2 = {name: 'pkg2', dependencies: {bar: 456}};
-  const expected = {foo: {pkg1: 123}, bar: {pkg2: 456}};
+  const pkg1 = {name: 'pkg1', version: 'v1', dependencies: {foo: 123}};
+  const pkg2 = {name: 'pkg2', version: 'v2', dependencies: {bar: 456}};
+  const expected = {foo: {'pkg1@v1': 123}, bar: {'pkg2@v2': 456}};
   assertDependencies(t, [pkg1, pkg2], expected);
   t.end(); 
 });
 
 tape('gather merges overlapping dependencies', (t) => {
-  const pkg1 = {name: 'pkg1', dependencies: {foo: 123}};
-  const pkg2 = {name: 'pkg2', dependencies: {foo: 456}};
-  const expected = {foo: {pkg1: 123, pkg2: 456}};
+  const pkg1 = {name: 'pkg1', version: 'v1', dependencies: {foo: 123}};
+  const pkg2 = {name: 'pkg2', version: 'v2', dependencies: {foo: 456}};
+  const expected = {foo: {'pkg1@v1': 123, 'pkg2@v2': 456}};
   assertDependencies(t, [pkg1, pkg2], expected);
   t.end(); 
 });

@@ -13,11 +13,18 @@
     "prebuild": "npm run clean",
     "build": "babel src -d lib --ignore \"**/*.tests.js\"",
     "clean": "rimraf lib",
-    "test": "tape -r @babel/register src/*.tests.js | faucet",
+    "test": "tape -r @babel/register \"src/**/*.tests.js\" | faucet",
     "watch": "npm-watch test"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "npm",
+    "dependencies",
+    "tool"
+  ],
+  "author": "Nicholas Edwards",
+  "homepage": "https://github.com/edwardsnjd/compare-js-dependencies",
+  "bugs": "https://github.com/edwardsnjd/compare-js-dependencies",
+  "repository": "https://github.com/edwardsnjd/compare-js-dependencies",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.2.0",

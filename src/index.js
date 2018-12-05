@@ -13,11 +13,12 @@
 export const gather = (dependenciesProperty) => (packages=[]) =>
   packages
     .map(pakage => {
-      const {name, [dependenciesProperty]: dependencies = {}} = pakage;
+      const {[dependenciesProperty]: dependencies = {}} = pakage;
+      const label = getPackageLabel(pakage);
       return Object.keys(dependencies)
         .reduce((packageDependencies, dependencyName) => {
           packageDependencies[dependencyName] = {
-            [name]: dependencies[dependencyName]
+            [label]: dependencies[dependencyName]
           };
           return packageDependencies;
         }, {});
@@ -35,13 +36,26 @@ export const gather = (dependenciesProperty) => (packages=[]) =>
         }, acc);
       }, {});
 
+const getPackageLabel = ({name, version}) =>
+  `${name}@${version||'?'}`;
+
 /**
  * Gather dependency info from the standard dependencies fields.
  * 
  * @param {object[]} packages - collection of packages to merge
  */
-export default (packages) => ({
-  dependencies: gather('dependencies')(packages),
-  peerDependencies: gather('peerDependencies')(packages),
-  devDependencies: gather('devDependencies')(packages),
-});
+export default (packages, opts={}) => {
+  const types = opts.types || [
+    'dependencies',
+    'peerDependencies',
+    'devDependencies',
+  ];
+
+  return {
+    packageLabels: packages.map(getPackageLabel),
+    ...types.reduce((acc, type) => ({
+      ...acc,
+      [type]: gather(type)(packages),
+    }), {}),
+  };
+};
