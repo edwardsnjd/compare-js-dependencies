@@ -11,11 +11,10 @@ export const getDependencyRows = (type, info) => {
 };
 
 export const getDependencyRow = (type, dependency, info) => {
-  const dependencies = info[type];
-  const {packageLabels} = info;
+  const {packageLabels, [type]: dependencies} = info;
   return [
     type,
     dependency,
-    ...packageLabels.map(packageInfo => dependencies[dependency][packageInfo] || '-'),
+    ...packageLabels.map(packageLabel => dependencies[dependency][packageLabel] || null),
   ];
 };
