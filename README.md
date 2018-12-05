@@ -10,7 +10,7 @@ Development
 
 Get a dev command prompt with:
 
-    docker-compose run app bash
+    docker-compose run app sh
 
 Install dependencies:
 
