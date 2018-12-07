@@ -1,5 +1,5 @@
 {
-  "name": "compare-js-dependencies",
+  "name": "@edwardsnjd/compare-js-dependencies",
   "version": "0.1.0",
   "description": "Simple tool to compare `package.json` dependencies.",
   "main": "lib/index.js",
@@ -14,6 +14,7 @@
     "build": "babel src -d lib --ignore \"**/*.tests.js\"",
     "clean": "rimraf lib",
     "test": "tape -r @babel/register \"src/**/*.tests.js\" | faucet",
+    "prepublishOnly": "npm run test && npm run build",
     "watch": "npm-watch test"
   },
   "keywords": [
@@ -41,5 +42,8 @@
   },
   "dependencies": {
     "minimist": "^1.2.0"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
